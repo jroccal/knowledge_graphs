@@ -21,6 +21,7 @@ from spacy import displacy
 from pyvis.network import Network
 
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 ## download stopwords
 nltk.download('stopwords')
