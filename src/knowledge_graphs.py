@@ -7,7 +7,9 @@ import nltk
 import string
 import codecs
 import unicodedata
+from unidecode import unidecode
 from nltk.corpus import stopwords
+
 
 import transformers
 from tqdm import tqdm
@@ -20,9 +22,9 @@ from pyvis.network import Network
 
 import matplotlib.pyplot as plt
 
-
+## download stopwords
+nltk.download('stopwords')
 nlp = spacy.load("en_core_web_sm")
-
 
 
 stop_words = stopwords.words('english')
