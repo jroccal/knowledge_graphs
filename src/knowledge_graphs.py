@@ -202,21 +202,22 @@ class Knowledge_graph:
             for index in tqdm(index_texts):
 
                 print('\ncomputing nodes to ', year)  
-                nodes = self.obtain_keywords_from_ps([series_text.loc[index]])      
-                nodes = self.filter_nodes(nodes, max_n_nodes = max_n_nodes, min_n_nodes = min_n_nodes, importance = importance_nodes)
-                print('clean nodes')
-                print(nodes['actions'].shape, nodes['actors'].shape, nodes['objects'].shape)
-                print(nodes['actors'].T)
-                print(nodes['actions'].T)
-                print(nodes['objects'].T)
-                print(series_text_graph.loc[index])
+                nodes = self.obtain_keywords_from_ps([series_text.loc[index]])
+                if (len(nodes['actions'])*len(nodes['actors'])*len(nodes['objects'])) > 0: #prevent empty
+                    nodes = self.filter_nodes(nodes, max_n_nodes = max_n_nodes, min_n_nodes = min_n_nodes, importance = importance_nodes)
+                    print('clean nodes')
+                    print(nodes['actions'].shape, nodes['actors'].shape, nodes['objects'].shape)
+                    print(nodes['actors'].T)
+                    print(nodes['actions'].T)
+                    print(nodes['objects'].T)
+                    print(series_text_graph.loc[index])
 
-                list_graph = self.predict_nodes(series_text_graph.loc[index], nodes, importance=importance_prediction, 
-                                                sample_sentences=sample_sentences)
-                df_graph = self.compute_edges(list_graph)
-                list_graphs_year.append(df_graph)
-                print('for text with ',len(series_text_graph.loc[index].split('.')),' sentences')
-                display(df_graph)
+                    list_graph = self.predict_nodes(series_text_graph.loc[index], nodes, importance=importance_prediction, 
+                                                    sample_sentences=sample_sentences)
+                    df_graph = self.compute_edges(list_graph)
+                    list_graphs_year.append(df_graph)
+                    print('for text with ',len(series_text_graph.loc[index].split('.')),' sentences')
+                    display(df_graph)
 
         return list_graphs_year
 
