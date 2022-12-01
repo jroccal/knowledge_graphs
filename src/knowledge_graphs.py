@@ -58,6 +58,26 @@ def  clean_date(x):
   else:
     return 3000
 
+def boxhist(df, column, figsize=(10,5)):
+    variable = df[column].values 
+    f, (ax_box, ax_hist) = plt.subplots(2, figsize=figsize, sharex=True, gridspec_kw= {"height_ratios": (1.0, 2)})
+    mean=np.mean(variable)
+    median=np.median(variable)
+    
+    sns.boxplot(variable, ax=ax_box)
+    ax_box.axvline(mean, color='r', linestyle='--')
+    ax_box.axvline(median, color='g', linestyle='-')
+    ax_box.set_title(column)
+    
+    sns.distplot(variable, ax=ax_hist)
+    ax_hist.axvline(mean, color='r', linestyle='--')
+    ax_hist.axvline(median, color='g', linestyle='-')
+    
+    plt.title(column, fontsize=10, loc="center")
+    # plt.legend({'Mean':mean,'Median':median})
+    # plt.legend({'Median','Mean'})
+    ax_box.set(xlabel='')
+    plt.show()
 
 class Knowledge_graph:
     def __init__(self, df_date_text, zero_shot_model):
@@ -195,7 +215,7 @@ class Knowledge_graph:
                 df_graph = self.compute_edges(list_graph)
                 list_graphs_year.append(df_graph)
                 print('for text with ',len(series_text_graph.loc[index].split('.')),' sentences')
-                display(self.df_graph)
+                display(df_graph)
 
         return list_graphs_year
 
