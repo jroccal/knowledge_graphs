@@ -185,9 +185,9 @@ class Knowledge_graph:
                 nodes = self.filter_nodes(nodes, max_n_nodes = max_n_nodes, min_n_nodes = min_n_nodes, importance = importance_nodes)
                 print('clean nodes')
                 print(nodes['actions'].shape, nodes['actors'].shape, nodes['objects'].shape)
-                print(kngraph.nodes['actors'].T)
-                print(kngraph.nodes['actions'].T)
-                print(kngraph.nodes['objects'].T)
+                print(nodes['actors'].T)
+                print(nodes['actions'].T)
+                print(nodes['objects'].T)
                 print(series_text_graph.loc[index])
 
                 list_graph = self.predict_nodes(series_text_graph.loc[index], nodes, importance=importance_prediction, 
