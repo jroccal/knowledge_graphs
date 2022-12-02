@@ -199,7 +199,7 @@ class Knowledge_graph:
             display(series_text)
             if node_mode == 'by_year':
                 print('\ncomputing nodes mode ', node_mode)  
-                nodes = self.get_cantidate_nodes(self, mode, series_text, max_n_nodes, min_n_nodes, importance_nodes)
+                nodes = self.get_cantidate_nodes(self, node_mode, series_text, max_n_nodes, min_n_nodes, importance_nodes)
       
             print('\ncomputing graph to ', year)    
             if sample_texts == None:
@@ -211,7 +211,7 @@ class Knowledge_graph:
 
                 if node_mode == 'by_text':
                     print('\ncomputing nodes mode ', node_mode)  
-                    nodes = self.get_cantidate_nodes(self, mode, [series_text.loc[index]], max_n_nodes, min_n_nodes, importance_nodes)
+                    nodes = self.get_cantidate_nodes(self, node_mode, [series_text.loc[index]], max_n_nodes, min_n_nodes, importance_nodes)
                     
                 if nodes is not None:
                 
