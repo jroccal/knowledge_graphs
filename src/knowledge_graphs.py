@@ -166,7 +166,6 @@ class Knowledge_graph:
         return df_graph_edges
 
     def get_cantidate_nodes(self, mode, list_texts, max_n_nodes, min_n_nodes, importance):
-        nodes = None
         nodes = self.obtain_keywords_from_ps(list_texts)
         if (len(nodes['actions'])*len(nodes['actors'])*len(nodes['objects'])) > 0: #prevent empty
             nodes = self.filter_nodes(nodes, max_n_nodes=max_n_nodes, min_n_nodes=min_n_nodes, importance=importance)                
@@ -175,7 +174,10 @@ class Knowledge_graph:
             print(nodes['actors'].T)
             print(nodes['actions'].T)
             print(nodes['objects'].T)
-        return nodes
+
+            return nodes
+        else:
+            return None
 
     def build_grap(self, list_years=[2016, 2017, 2018, 2019, 2020, 2021, 2022], node_mode='by_text',
                    max_n_nodes = 10, min_n_nodes = 5, importance_nodes = 0.5, importance_prediction=0.6,
