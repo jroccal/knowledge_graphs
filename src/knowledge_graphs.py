@@ -177,7 +177,7 @@ class Knowledge_graph:
             print(nodes['objects'].T)
         return nodes
 
-    def build_grap(self, list_years=[2016, 2017, 2018, 2019, 2020, 2021, 2022], node_mode=''
+    def build_grap(self, list_years=[2016, 2017, 2018, 2019, 2020, 2021, 2022], node_mode='by_text',
                    max_n_nodes = 10, min_n_nodes = 5, importance_nodes = 0.5, importance_prediction=0.6,
                    sample_texts = None, sample_sentences=None, batch_size=10):
         """
