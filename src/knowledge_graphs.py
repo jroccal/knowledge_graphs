@@ -220,10 +220,11 @@ class Knowledge_graph:
                     print(series_text_graph.loc[index])
                     list_graph = self.predict_nodes(series_text_graph.loc[index], nodes, importance=importance_prediction, 
                                                     sample_sentences=sample_sentences)
-                    df_graph = self.compute_edges(list_graph)
-                    list_graphs_year.append(df_graph)
-                    print('for text with ',len(series_text_graph.loc[index].split('.')),' sentences')
-                    display(df_graph)
+                    if len(list_graph) > 0:
+                        df_graph = self.compute_edges(list_graph)
+                        list_graphs_year.append(df_graph)
+                        print('for text with ',len(series_text_graph.loc[index].split('.')),' sentences')
+                        display(df_graph)
 
         return list_graphs_year
 
