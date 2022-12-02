@@ -165,9 +165,24 @@ class Knowledge_graph:
         df_graph_edges = df_graph.reset_index().groupby(['src', 'dst']).count()
         return df_graph_edges
 
-    def build_grap(self, list_years=[2016, 2017, 2018, 2019, 2020, 2021, 2022], 
+    def get_cantidate_nodes(self, mode, list_texts, max_n_nodes, min_n_nodes, importance):
+        nodes = None
+        nodes = self.obtain_keywords_from_ps(list_texts)
+        if (len(nodes['actions'])*len(nodes['actors'])*len(nodes['objects'])) > 0: #prevent empty
+            nodes = self.filter_nodes(nodes, max_n_nodes=max_n_nodes, min_n_nodes=min_n_nodes, importance=importance)                
+            print('clean nodes')
+            print(nodes['actions'].shape, nodes['actors'].shape, nodes['objects'].shape)
+            print(nodes['actors'].T)
+            print(nodes['actions'].T)
+            print(nodes['objects'].T)
+        return nodes
+
+    def build_grap(self, list_years=[2016, 2017, 2018, 2019, 2020, 2021, 2022], node_mode=''
                    max_n_nodes = 10, min_n_nodes = 5, importance_nodes = 0.5, importance_prediction=0.6,
                    sample_texts = None, sample_sentences=None, batch_size=10):
+        """
+        node_mode: Its is refered to how the node are computed by text 'by_text', or by year 'by_year'
+        """
     
         list_graphs_year = []
         for year in list_years:
@@ -182,16 +197,9 @@ class Knowledge_graph:
                 series_text_graph = self.df_date_text[self.df_date_text['date']==year]['text_norm_graph']
 
             display(series_text)
-            """
-            print('\ncomputing nodes to ', year)  
-            self.nodes_raw = self.obtain_keywords_from_ps(self.series_text.iloc[2:3])
-            print('raw nodes')
-            # print(len(nodes['actions']), len(nodes['actors']), len(nodes['objects']))      
-
-            self.nodes = self.filter_nodes(self.nodes_raw, max_n_nodes = max_n_nodes, min_n_nodes = min_n_nodes, importance = importance_nodes)
-            print('clean nodes')
-            print(self.nodes['actions'].shape, self.nodes['actors'].shape, self.nodes['objects'].shape)
-            """
+            if node_mode == 'by_year':
+                print('\ncomputing nodes mode ', node_mode)  
+                nodes = self.get_cantidate_nodes(self, mode, series_text, max_n_nodes, min_n_nodes, importance_nodes)
       
             print('\ncomputing graph to ', year)    
             if sample_texts == None:
@@ -201,17 +209,13 @@ class Knowledge_graph:
 
             for index in tqdm(index_texts):
 
-                print('\ncomputing nodes to ', year)  
-                nodes = self.obtain_keywords_from_ps([series_text.loc[index]])
-                if (len(nodes['actions'])*len(nodes['actors'])*len(nodes['objects'])) > 0: #prevent empty
-                    nodes = self.filter_nodes(nodes, max_n_nodes = max_n_nodes, min_n_nodes = min_n_nodes, importance = importance_nodes)
-                    print('clean nodes')
-                    print(nodes['actions'].shape, nodes['actors'].shape, nodes['objects'].shape)
-                    print(nodes['actors'].T)
-                    print(nodes['actions'].T)
-                    print(nodes['objects'].T)
+                if node_mode == 'by_text':
+                    print('\ncomputing nodes mode ', node_mode)  
+                    nodes = self.get_cantidate_nodes(self, mode, [series_text.loc[index]], max_n_nodes, min_n_nodes, importance_nodes)
+                    
+                if nodes is not None:
+                
                     print(series_text_graph.loc[index])
-
                     list_graph = self.predict_nodes(series_text_graph.loc[index], nodes, importance=importance_prediction, 
                                                     sample_sentences=sample_sentences)
                     df_graph = self.compute_edges(list_graph)
