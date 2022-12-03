@@ -91,7 +91,7 @@ class Knowledge_graph:
             count = Counter(nodes_raw[key])
             array_most_common = np.array(count.most_common())
             weight_words = np.int_(array_most_common[:,1])
-            filter_ = np.cumsum(weight_words)/weight_words.shape[0] <= importance
+            filter_ = np.cumsum(weight_words/np.sum(weight_words)) <= importance
             if np.sum(filter_) > max_n_nodes:
                 nodes_clean[key] = array_most_common[0:max_n_nodes]
             elif np.sum(filter_) < min_n_nodes:
