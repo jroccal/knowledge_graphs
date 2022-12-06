@@ -11,8 +11,11 @@ def softmax(x):
 def get_softmax_norm(x, slope=1.0, scale=200):                     
     return scale*softmax(np.log(x) + 1.0)
 
-def create_graph(df, edges_norm=False, min_degree_node=None):
-    net = Network()
+def create_graph(df, edges_norm=False, min_degree_node=None, show_in_notebook=False):
+    if show_in_notebook:
+        net = Network(notebook=True)
+    else:
+        net = Network()
     
     df = df.groupby(['src', 'dst']).sum()
     display(df.head())
@@ -40,7 +43,7 @@ def create_graph(df, edges_norm=False, min_degree_node=None):
     return net
 
 def plot_graph(net, name_file):
-    net.toggle_physics(True)
+    net.toggle_physics(True)    
     net.set_options("""
     const options = {
       "physics": {
@@ -60,6 +63,6 @@ def plot_graph(net, name_file):
         }    
       }
     }
-    """)
+    """)    
     # net.show_buttons(filter_=['nodes'])
     net.show(name_file+'.html')
