@@ -186,7 +186,7 @@ class Knowledge_graph:
         node_mode: Its is refered to how the node are computed by text 'by_text', or by year 'by_year'
         """
     
-        list_graphs_year = []
+        self.list_graphs_year = []
         for year in list_years:
             if year == 2016:        
                 series_text = self.df_date_text[self.df_date_text['date']<=year]['text_norm']
@@ -222,9 +222,9 @@ class Knowledge_graph:
                                                     sample_sentences=sample_sentences)
                     if len(list_graph) > 0:
                         df_graph = self.compute_edges(list_graph)
-                        list_graphs_year.append(df_graph)
+                        self.list_graphs_year.append(df_graph)
                         print('for text with ',len(series_text_graph.loc[index].split('.')),' sentences')
                         display(df_graph)
 
-        return list_graphs_year
+        return self.list_graphs_year
 
