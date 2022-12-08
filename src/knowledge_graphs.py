@@ -191,9 +191,6 @@ class Knowledge_graph:
             if year == 2016:        
                 series_text = self.df_date_text[self.df_date_text['date']<=year]['text_norm']
                 series_text_graph = self.df_date_text[self.df_date_text['date']<=year]['text_norm_graph']
-            elif year == 2022:
-                series_text = self.df_date_text[self.df_date_text['date']>=year]['text_norm']
-                series_text_graph = self.df_date_text[self.df_date_text['date']>=year]['text_norm_graph']
             else:      
                 series_text = self.df_date_text[self.df_date_text['date']==year]['text_norm']
                 series_text_graph = self.df_date_text[self.df_date_text['date']==year]['text_norm_graph']
